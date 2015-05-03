@@ -1,0 +1,34 @@
+{
+  "name": "multer-storage-pkgcloud",
+  "version": "0.0.1",
+  "description": "A multer storage plugin to upload files into a from pkgcloud supported cloud object storage",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dustin-H/multer-storage-pkgcloud.git"
+  },
+  "keywords": [
+    "multer",
+    "file upload",
+    "upload",
+    "cloud object storage",
+    "s3",
+    "openstack",
+    "nodejs",
+    "express",
+    "multipart"
+  ],
+  "files": [
+    "LICENSE",
+    "index.js"
+  ],
+  "author": "Dustin Hoffner",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dustin-H/multer-storage-pkgcloud/issues"
+  },
+  "homepage": "https://github.com/dustin-H/multer-storage-pkgcloud"
+}
