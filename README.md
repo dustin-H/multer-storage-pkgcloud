@@ -15,6 +15,8 @@ It is just a plugin for multer. So you will need multer as well as pkgcloud to u
 
 `$ npm install multer-storage-pkgcloud`
 
+npm-link: [multer-storage-pkgcloud](https://www.npmjs.com/package/multer-storage-pkgcloud)
+
 #### Usage
 
 Get the dependencies and create a pkgcloud client.
