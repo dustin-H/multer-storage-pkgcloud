@@ -1,6 +1,6 @@
 {
   "name": "multer-storage-pkgcloud",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A multer storage plugin to upload files into a from pkgcloud supported cloud object storage",
   "main": "index.js",
   "scripts": {

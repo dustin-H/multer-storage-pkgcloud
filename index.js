@@ -17,36 +17,31 @@ PkgcloudStorage.prototype.handleFile = function handleFile(req, file, cb) {
 			remote: dest.remote,
 			contentType: file.mimetype
 		};
-		
+
 		// ensuring existence of container
 		that.client.createContainer({
 			'name': params.container
 		}, function(err, container) {
 
 			// need to check for an error and if the container is null (can really happen)
-			if (err != null || container == null) {
-				cb(err);
-			} else {
+			if (err != null) return cb(err);
+			if (container == null) return cb(new Error('Failed to ensure existence of container "' + params.container + '"'));
 
-				// storing of pkgcloud container object in req for processing afterwords
-				req.multerContainer = container;
+			// storing of pkgcloud container object in req for processing afterwords
+			req.multerContainer = container;
 
-				var outStream = that.client.upload(params);
+			var outStream = that.client.upload(params);
 
-				file.stream.pipe(outStream)
-				outStream.on('error', cb)
-				outStream.on('success', function(info) {
-					cb(null, {
-						size: info.size,
-						container: dest.container,
-						remote: dest.remote
-					});
+			file.stream.pipe(outStream)
+			outStream.on('error', cb)
+			outStream.on('success', function(info) {
+				cb(null, {
+					size: info.size,
+					container: params.container,
+					remote: params.remote
 				});
-
-
-			}
+			});
 		});
-
 	});
 };
 
