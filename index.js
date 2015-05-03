@@ -3,6 +3,20 @@ function PkgcloudStorage(opts) {
 	this.getDestination = opts.destination
 }
 
+function upload(req, file, that, params, cb){
+	var outStream = that.client.upload(params);
+
+	file.stream.pipe(outStream)
+	outStream.on('error', cb)
+	outStream.on('success', function(info) {
+		cb(null, {
+			size: info.size,
+			container: params.container,
+			remote: params.remote
+		});
+	});
+}
+
 PkgcloudStorage.prototype.handleFile = function handleFile(req, file, cb) {
 	var that = this;
 
@@ -18,6 +32,11 @@ PkgcloudStorage.prototype.handleFile = function handleFile(req, file, cb) {
 			contentType: file.mimetype
 		};
 
+		// check if existence check is necessary
+		if(req.multerPkgcloudRecentContainer != null && req.multerPkgcloudRecentContainer.indexOf(params.container) >= 0){
+			return upload(req, file, that, params, cb);
+		}
+
 		// ensuring existence of container
 		that.client.createContainer({
 			'name': params.container
@@ -29,18 +48,11 @@ PkgcloudStorage.prototype.handleFile = function handleFile(req, file, cb) {
 
 			// storing of pkgcloud container object in req for processing afterwords
 			req.multerContainer = container;
-
-			var outStream = that.client.upload(params);
-
-			file.stream.pipe(outStream)
-			outStream.on('error', cb)
-			outStream.on('success', function(info) {
-				cb(null, {
-					size: info.size,
-					container: params.container,
-					remote: params.remote
-				});
-			});
+			if(req.multerPkgcloudRecentContainer == null){
+				req.multerPkgcloudRecentContainer = [];
+			}
+			req.multerPkgcloudRecentContainer.push(params.container);
+			upload(req, file, that, params, cb);
 		});
 	});
 };
