@@ -1,3 +1,10 @@
+function getDestination (req, file, cb) {
+  cb(null, {
+	  container: 'uploads',
+	  remote: file.originalname
+  })
+}
+
 function PkgcloudStorage(opts) {
 	this.client = opts.client;
 	this.getDestination = (opts.destination || getDestination);
