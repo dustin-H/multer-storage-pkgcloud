@@ -23,7 +23,8 @@
   ],
   "files": [
     "LICENSE",
-    "index.js"
+    "index.js",
+    "README.md"
   ],
   "author": "Dustin Hoffner",
   "license": "MIT",
