@@ -2,13 +2,12 @@
 
 This is a multer storage plugin to upload files into a from pkgcloud supported cloud object storage.
 
-It is just a plugin for multer. So you will need multer as well as pkgcloud to use this plugin. Please have a look at these two awesome projects:
+It is just a storage plugin for multer. So you will need multer as well as pkgcloud to use this plugin. Please have a look at these two awesome projects:
 
 - [multer](https://github.com/expressjs/multer)
 - [pkgcloud](https://github.com/pkgcloud/pkgcloud#storage)
 
-**IMPORTANT**: This is a storage for the next major release of multer. It will not work with the current version of multer. If you need a quick solution have a look at this pull request [#102](https://github.com/expressjs/multer/pull/102) or use [multer-pkgcloud](https://www.npmjs.com/package/multer-pkgcloud).
-
+**IMPORTANT**: Multer version >= 1.0.0 required! 
 ## API
 
 #### Installation
@@ -39,11 +38,12 @@ The object passed to the callback `cb` is a option object from pkgcloud. See [pk
 function destination(req, file, cb) {
 	cb(null, {
 		container: 'myContainer',
-		remote: 'myFile.txt'
+		remote: file.originalname
 	})
 }
 ```
-Now create a instance of pkgcloudStorage.
+
+Now create a new pkgcloudStorage.
 ```js
 var storage = pkgcloudStorage({
 	client: client,
@@ -51,16 +51,19 @@ var storage = pkgcloudStorage({
 })
 ```
 
-Then use the multer middleware in your express app.
+Then use the multer middleware in your express app. See [multer](https://github.com/expressjs/multer) for more detailed usage information of `upload`.
 ```js
 var app = express();
 
-app.use('/', multer({
+var upload = multer({
 	storage: storage
-}));
+});
+
+app.use('/', upload.single('fieldname1'));
+app.use('/', upload.array('fieldname2', 12));
 ```
 
-You can access the pkgcloud container in the `request` object:
+You can access the pkgcloud container in the `req` object after uploading:
 ```js
 app.post('/', function(req, res, next) {
 	res.json({
