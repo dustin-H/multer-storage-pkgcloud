@@ -8,6 +8,7 @@ function getDestination (req, file, cb) {
 function PkgcloudStorage(opts) {
 	this.client = opts.client;
 	this.getDestination = (opts.destination || getDestination);
+	this.skipContainerCheck = !!opts.skipContainerCheck;
 }
 
 function upload(req, file, that, params, cb) {
@@ -45,10 +46,15 @@ PkgcloudStorage.prototype._handleFile = function _handleFile(req, file, cb) {
 		}
 
 		// ensuring existence of container
-		that.client.createContainer({
-			'name': params.container
-		}, function(err, container) {
-
+		if (!that.skipContainerCheck) {
+			that.client.createContainer({
+				'name': params.container
+			}, uploadInContainer);
+		} else {
+			uploadInContainer(null, params.container);
+		}
+		
+		function uploadInContainer(err, container) {
 			// need to check for an error and if the container is null (can really happen)
 			if (err != null) return cb(err);
 			if (container == null) return cb(new Error('Failed to ensure existence of container "' + params.container + '"'));
@@ -60,7 +66,7 @@ PkgcloudStorage.prototype._handleFile = function _handleFile(req, file, cb) {
 			}
 			req.multerPkgcloudRecentContainer.push(params.container);
 			upload(req, file, that, params, cb);
-		});
+		}
 	});
 };
 
