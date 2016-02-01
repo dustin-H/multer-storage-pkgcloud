@@ -1,29 +1,24 @@
 /*global describe, before, beforeEach, it*/
 
 var request = require('supertest')
-var pkgcloud = require('pkgcloud')
 var express = require('express')
 var multer = require('multer')
 var assert = require('assert')
-var mkdirp = require('mkdirp')
 var async = require('async')
+
+var pkgcloudClient = require('./support/pkgcloud-client')
 var pkgcloudStorage = require('..')
 
-pkgcloud.providers.filesystem = {}
-pkgcloud.providers.filesystem.storage = require('filesystem-storage-pkgcloud')
-
-var TEST_ROOT = '/tmp/multer-storage-pkgcloud'
-var TEST_CONTAINER = 'test-container'
-mkdirp.sync(TEST_ROOT + '/' + TEST_CONTAINER)
+var TEST_CONTAINER = process.env.TEST_CONTAINER || 'test-container'
 
 describe('multer-storage-pkgcloud', function () {
   var app, http, client
 
+  before(function (done) { pkgcloudClient.destroyContainer(TEST_CONTAINER, done) })
+  before(function (done) { pkgcloudClient.createContainer(TEST_CONTAINER, done) })
+
   before(function () {
-    client = pkgcloud.storage.createClient({
-      provider: 'filesystem',
-      root: '/tmp/multer-storage-pkgcloud'
-    })
+    client = pkgcloudClient
 
     var storage = pkgcloudStorage({
       client: client,
