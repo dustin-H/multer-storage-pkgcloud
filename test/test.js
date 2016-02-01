@@ -5,6 +5,7 @@ var express = require('express')
 var multer = require('multer')
 var assert = require('assert')
 var async = require('async')
+var ary = require('lodash.ary')
 
 var pkgcloudClient = require('./support/pkgcloud-client')
 var pkgcloudStorage = require('..')
@@ -44,8 +45,12 @@ describe('multer-storage-pkgcloud', function () {
     describe('POST ' + url, function () {
       beforeEach(function (done) {
         async.waterfall([
-          function (done) { client.getFiles(TEST_CONTAINER, done) },
-          function (files, done) { async.each(files, function (f, done) { f.remove(done) }, done) }
+          function (done) { client.getFiles(TEST_CONTAINER, ary(done, 2)) },
+          function (files, done) {
+            async.each(files, function (f, done) {
+              f.remove(done)
+            }, done)
+          }
         ], done)
       })
 
