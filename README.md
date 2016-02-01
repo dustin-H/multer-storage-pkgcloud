@@ -1,5 +1,7 @@
 # multer-storage-pkgcloud
 
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+
 This is a multer storage plugin to upload files into a from pkgcloud supported cloud object storage.
 
 It is just a storage plugin for multer. So you will need multer as well as pkgcloud to use this plugin. Please have a look at these two awesome projects:
@@ -7,7 +9,7 @@ It is just a storage plugin for multer. So you will need multer as well as pkgcl
 - [multer](https://github.com/expressjs/multer)
 - [pkgcloud](https://github.com/pkgcloud/pkgcloud#storage)
 
-**IMPORTANT**: Multer version >= 1.0.0 required! 
+**IMPORTANT**: Multer version >= 1.0.0 required!
 ## API
 
 #### Installation

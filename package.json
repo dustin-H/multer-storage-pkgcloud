@@ -4,7 +4,8 @@
   "description": "A multer storage plugin to upload files into a from pkgcloud supported cloud object storage",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "snazzy"
   },
   "repository": {
     "type": "git",
@@ -31,5 +32,8 @@
   "bugs": {
     "url": "https://github.com/dustin-H/multer-storage-pkgcloud/issues"
   },
-  "homepage": "https://github.com/dustin-H/multer-storage-pkgcloud"
+  "homepage": "https://github.com/dustin-H/multer-storage-pkgcloud",
+  "devDependencies": {
+    "snazzy": "^2.0.1"
+  }
 }
