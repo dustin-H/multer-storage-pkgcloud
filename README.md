@@ -65,13 +65,4 @@ app.use('/', upload.single('fieldname1'));
 app.use('/', upload.array('fieldname2', 12));
 ```
 
-You can access the pkgcloud container in the `req` object after uploading:
-```js
-app.post('/', function(req, res, next) {
-	res.json({
-		multerContainer: req.multerContainer
-	});
-});
-```
-
 ## [MIT Licensed](LICENSE)
