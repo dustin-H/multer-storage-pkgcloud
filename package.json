@@ -28,6 +28,11 @@
     "README.md"
   ],
   "author": "Dustin Hoffner",
+  "contributors": [
+    { 
+      "name": "Loïc Mahieu" 
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/dustin-H/multer-storage-pkgcloud/issues"
