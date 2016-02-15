@@ -23,12 +23,7 @@ describe('multer-storage-pkgcloud', function () {
 
     var storage = pkgcloudStorage({
       client: client,
-      destination: function destination (req, file, cb) {
-        cb(null, {
-          container: TEST_CONTAINER,
-          remote: file.originalname
-        })
-      }
+      container: TEST_CONTAINER
     })
 
     var upload = multer({
