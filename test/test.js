@@ -10,7 +10,7 @@ var ary = require('lodash.ary')
 var pkgcloudClient = require('./support/pkgcloud-client')
 var pkgcloudStorage = require('..')
 
-var TEST_CONTAINER = process.env.TEST_CONTAINER || 'test-container'
+var TEST_CONTAINER = pkgcloudClient.TEST_CONTAINER
 
 describe('multer-storage-pkgcloud', function () {
   var app, http, client

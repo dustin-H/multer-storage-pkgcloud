@@ -1,9 +1,14 @@
 
 var pkgcloud = require('pkgcloud')
+var mkdirp = require('mkdirp')
+var path = require('path')
+
+var client
+var TEST_CONTAINER = process.env.TEST_CONTAINER || 'test-container'
 
 switch (process.env.PKGCLOUD_STORAGE) {
   case 'amazon':
-    module.exports = pkgcloud.storage.createClient({
+    client = pkgcloud.storage.createClient({
       provider: 'amazon',
       key: process.env.PKGCLOUD_KEY,
       keyId: process.env.PKGCLOUD_KEYID,
@@ -14,18 +19,20 @@ switch (process.env.PKGCLOUD_STORAGE) {
 
   case 'filesystem':
   default:
-    var mkdirp = require('mkdirp')
-
     pkgcloud.providers.filesystem = {}
     pkgcloud.providers.filesystem.storage = require('filesystem-storage-pkgcloud')
 
     var TEST_ROOT = '/tmp/multer-storage-pkgcloud'
-    mkdirp.sync(TEST_ROOT)
 
-    module.exports = pkgcloud.storage.createClient({
+    mkdirp.sync(path.join(TEST_ROOT, TEST_CONTAINER))
+
+    client = pkgcloud.storage.createClient({
       provider: 'filesystem',
-      root: '/tmp/multer-storage-pkgcloud'
+      root: TEST_ROOT
     })
 
     break
 }
+
+client.TEST_CONTAINER = TEST_CONTAINER
+module.exports = client

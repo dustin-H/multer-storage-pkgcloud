@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "lint": "snazzy"
+    "lint": "snazzy",
+    "travis": "npm run lint && npm test"
   },
   "repository": {
     "type": "git",
@@ -29,8 +30,8 @@
   ],
   "author": "Dustin Hoffner",
   "contributors": [
-    { 
-      "name": "Loïc Mahieu" 
+    {
+      "name": "Loïc Mahieu"
     }
   ],
   "license": "MIT",
