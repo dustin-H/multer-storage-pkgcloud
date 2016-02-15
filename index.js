@@ -1,14 +1,14 @@
 
-function getDestination (req, file, cb) {
-  cb(null, {
-    container: 'uploads',
-    remote: file.originalname
-  })
-}
-
 function PkgcloudStorage (opts) {
   this.client = opts.client
-  this.getDestination = (opts.destination || getDestination)
+  this.getDestination = opts.destination || getDestination
+
+  function getDestination (req, file, cb) {
+    cb(null, {
+      container: opts.container || 'uploads',
+      remote: file.originalname
+    })
+  }
 }
 
 PkgcloudStorage.prototype._handleFile = function _handleFile (req, file, cb) {
