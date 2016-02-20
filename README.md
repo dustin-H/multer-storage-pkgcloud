@@ -16,7 +16,7 @@ It is just a storage plugin for multer. So you will need multer as well as pkgcl
 
 `$ npm install multer-storage-pkgcloud`
 
-npm-link: [multer-storage-pkgcloud](https://www.npmjs.com/package/multer-storage-pkgcloud)
+NPM: [multer-storage-pkgcloud](https://www.npmjs.com/package/multer-storage-pkgcloud)
 
 #### Usage
 
@@ -27,29 +27,25 @@ var multer  = require('multer')
 var pkgcloud = require('pkgcloud')
 var pkgcloudStorage = require('multer-storage-pkgcloud')
 
-var client = pkgcloud.storage.createClient({ /* pkgcloud config object */ });
-// See pkgcloud docu for more information
+var client = pkgcloud.storage.createClient({ /* pkgcloud config object */ })
+// See pkgcloud documentation for more information
 ```
 
-Now create a destination function which will be called for each file-upload to rename the container and/or the remote file.
-See documentation of [multer](https://github.com/expressjs/multer) to get more information about the `file` object.
+By default, file are stored in container named `uploads` and the name of the file is the `file.originalname`.
 
-The object passed to the callback `cb` is a option object from pkgcloud. See [pkgcloud/pkgcloud#file](https://github.com/pkgcloud/pkgcloud#file).
+- options: `container`: Overwrite the container name.
+- options: `destination`: Destination function which will be called for each file-upload to rename the container and/or the remote file.
+See documentation of [multer](https://github.com/expressjs/multer) to get more information about the `file` object. The object passed to the callback `cb` is a option object from pkgcloud. See [pkgcloud/pkgcloud#file](https://github.com/pkgcloud/pkgcloud#file).
 
-```js
-function destination(req, file, cb) {
-	cb(null, {
-		container: 'myContainer',
-		remote: file.originalname
-	})
-}
-```
-
-Now create a new pkgcloudStorage.
 ```js
 var storage = pkgcloudStorage({
-	client: client,
-	destination: destination
+  client: client,
+  destination: function (req, file, cb) {
+    cb(null, {
+      container: 'myContainer',
+      remote: 'some/path/' + file.originalname
+    })
+  }
 })
 ```
 
@@ -58,7 +54,7 @@ Then use the multer middleware in your express app. See [multer](https://github.
 var app = express();
 
 var upload = multer({
-	storage: storage
+  storage: storage
 });
 
 app.use('/', upload.single('fieldname1'));
