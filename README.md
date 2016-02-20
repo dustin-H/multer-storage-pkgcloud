@@ -2,6 +2,7 @@
 
 [![js-standard-style](https://api.travis-ci.org/dustin-H/multer-storage-pkgcloud.svg)](https://travis-ci.org/dustin-H/multer-storage-pkgcloud)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+<a href="https://codeclimate.com/github/dustin-H/multer-storage-pkgcloud"><img src="https://codeclimate.com/github/dustin-H/multer-storage-pkgcloud/badges/gpa.svg" /></a>
 
 This is a multer storage plugin to upload files into a from pkgcloud supported cloud object storage.
 
