@@ -27,8 +27,7 @@ PkgcloudStorage.prototype._handleFile = function _handleFile (req, originalFile,
       }
 
       var outStream = that.client.upload(params)
-      const stream = file.stream || file
-      stream.pipe(outStream)
+      file.stream.pipe(outStream)
       outStream.on('error', cb)
       outStream.on('success', function (info) {
         cb(null, {
